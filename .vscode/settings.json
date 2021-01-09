@@ -1,0 +1,32 @@
+{
+    "editor.lineHeight": 24,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.rulers": [80, 120],
+    "editor.tabSize": 4,
+    "editor.parameterHints.enabled": false,
+    "editor.wordWrap": "on",
+    "terminal.integrated.fontSize": 14,
+    "emmet.syntaxProfiles": {
+        "javascript": "jsx"
+    },
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "javascript.updateImportsOnFileMove.enabled": "never",
+    "breadcrumbs.enabled": true,
+    "prettier-eslint": true,
+    "prettier-eslint.eslintIntegration": true,
+  
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    }
+ }
+  
+  
+ 
+ 
