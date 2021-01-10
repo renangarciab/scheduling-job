@@ -69,15 +69,15 @@ function App() {
 		});
 	}
 
-	function handlerOrderDateMatched(dateA, dateB) {
+	function orderDateMatched(dateA, dateB) {
 		return dateA.deadlineMatched - dateB.deadlineMatched;
 	}
 
-	function handlerOrderDate(dateA, dateB) {
+	function orderDate(dateA, dateB) {
 		return dateA.deadline - dateB.deadline;
 	}
 
-	function handlerRetornaArray(list) {
+	function returnJobsList(list) {
 		const compareList = list;
 		let exportList = [];
 		let dateMatched = null;
@@ -100,7 +100,7 @@ function App() {
 
 		console.log('groupArray', groupArray);
 
-		// Função que remove os agrupamentos repetido
+		// Função que remove os agrupamentos repetidos
 		exportList = groupArray.filter(
 			(group, index, self) =>
 				index ===
@@ -109,14 +109,14 @@ function App() {
 				)
 		);
 
-		exportList.sort(handlerOrderDateMatched);
+		exportList.sort(orderDateMatched);
 
 		console.log('exportList', exportList);
 
 		return exportList;
 	}
 
-	jobsList = handlerRetornaArray(jobs);
+	jobsList = returnJobsList(jobs);
 
 	return (
 		<Container fluid="lg">
@@ -137,7 +137,7 @@ function App() {
 									Tempo
 								</th>
 							</thead>
-							{jobGroup.list.sort(handlerOrderDate).map((job) => (
+							{jobGroup.list.sort(orderDate).map((job) => (
 								<tbody key={job.id}>
 									<td className="text-center">{job.id}</td>
 									<td>{job.description}</td>
