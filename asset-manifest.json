@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/renangarciab/scheduling-job/static/js/main.3e7da406.chunk.js",
+    "main.js.map": "/renangarciab/scheduling-job/static/js/main.3e7da406.chunk.js.map",
+    "runtime-main.js": "/renangarciab/scheduling-job/static/js/runtime-main.183b314e.js",
+    "runtime-main.js.map": "/renangarciab/scheduling-job/static/js/runtime-main.183b314e.js.map",
+    "static/css/2.ae9f1eb3.chunk.css": "/renangarciab/scheduling-job/static/css/2.ae9f1eb3.chunk.css",
+    "static/js/2.3585e104.chunk.js": "/renangarciab/scheduling-job/static/js/2.3585e104.chunk.js",
+    "static/js/2.3585e104.chunk.js.map": "/renangarciab/scheduling-job/static/js/2.3585e104.chunk.js.map",
+    "index.html": "/renangarciab/scheduling-job/index.html",
+    "static/css/2.ae9f1eb3.chunk.css.map": "/renangarciab/scheduling-job/static/css/2.ae9f1eb3.chunk.css.map",
+    "static/js/2.3585e104.chunk.js.LICENSE.txt": "/renangarciab/scheduling-job/static/js/2.3585e104.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.183b314e.js",
+    "static/css/2.ae9f1eb3.chunk.css",
+    "static/js/2.3585e104.chunk.js",
+    "static/js/main.3e7da406.chunk.js"
+  ]
+}
