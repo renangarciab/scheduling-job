@@ -23,9 +23,16 @@ module.exports = {
 			'warn',
 			{ extensions: ['.jsx', '.js'] },
 		],
+		'no-unused-vars': [
+			'warn',
+			{ vars: 'all', args: 'after-used', ignoreRestSiblings: false },
+		],
+		'no-shadow': [
+			'warn',
+			{ builtinGlobals: false, hoist: 'functions', allow: [] },
+		],
 		'react/jsx-props-no-spreading': 'off',
 		'import/prefer-default-export': 'off',
-		'no-console': ['error', { allow: ['tron'] }],
 		'react-hooks/rules-of-hooks': 'error',
 		'react-hooks/exhaustive-deps': 'warn',
 	},
