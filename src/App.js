@@ -1,46 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import { isEqual, format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
+import {
+	Container,
+	ListGroup,
+	ListGroupItem,
+	ListGroupItemHeading,
+	Table,
+} from 'reactstrap';
 import pt from 'date-fns/locale/pt';
 
 function App() {
-	const sortedJobs = [];
+	let jobsList = [];
 	const jobs = [
 		{
 			id: 1,
 			description: 'Importação de arquivos de fundos',
 			deadline: new Date('2019-11-11 12:00:00'),
-			time: '2',
+			duration: 2,
 		},
 		{
 			id: 2,
 			description: 'Importação de dados da Base Legada',
 			deadline: new Date('2019-11-13 12:00:00'),
-			time: '4',
+			duration: 4,
 		},
 		{
 			id: 3,
 			description: 'Importação de dados de integração',
 			deadline: new Date('2019-11-11 08:00:00'),
-			time: '6',
+			duration: 6,
 		},
 		{
 			id: 4,
 			description: 'Importação de dados de integração',
-			deadline: new Date('2019-11-12 08:00:00'),
-			time: '6',
+			deadline: new Date('2019-11-12 18:00:00'),
+			duration: 6,
 		},
 		{
 			id: 5,
 			description: 'Importação de dados de integração',
 			deadline: new Date('2019-11-12 09:00:00'),
-			time: '6',
+			duration: 8,
 		},
 		{
 			id: 6,
 			description: 'Importação de dados de integração',
+			deadline: new Date('2019-11-12 15:00:00'),
+			duration: 1,
+		},
+		{
+			id: 7,
+			description: 'Importação de dados de integração',
 			deadline: new Date('2019-11-12 09:00:00'),
-			time: '10',
+			duration: 10,
 		},
 	];
 
@@ -50,35 +63,44 @@ function App() {
 		});
 	}
 
-	function handlerOrderDate(dateA, dateB) {
+	function fullDateFormat(date) {
+		return format(date, "dd'/'MM'/'yyyy' 'HH:mm", {
+			locale: pt,
+		});
+	}
+
+	function handlerOrderDateMatched(dateA, dateB) {
 		return dateA.deadlineMatched - dateB.deadlineMatched;
 	}
 
-	function handlerArray(list) {
+	function handlerOrderDate(dateA, dateB) {
+		return dateA.deadline - dateB.deadline;
+	}
+
+	function handlerRetornaArray(list) {
 		const compareList = list;
 		let exportList = [];
 		let dateMatched = null;
 		const groupArray = [];
 
-		console.log(exportList);
-
+		// Função que agrupa os jobs por dia
 		for (let i = 0; i < list.length; i += 1) {
-			if (list[i].time <= 8) {
-				dateMatched = compareList.filter(
-					(item) =>
-						dateFormat(item.deadline) ===
-						dateFormat(list[i].deadline)
-				);
-				groupArray.push({
-					dateMatched: dateFormat(list[i].deadline),
-					deadlineMatched: list[i].deadline,
-					...dateMatched,
-				});
-			}
+			dateMatched = compareList.filter(
+				(item) =>
+					dateFormat(item.deadline) ===
+						dateFormat(list[i].deadline) && item.duration < 9
+			);
+
+			groupArray.push({
+				dateMatched: dateFormat(list[i].deadline),
+				deadlineMatched: list[i].deadline,
+				list: dateMatched,
+			});
 		}
 
 		console.log('groupArray', groupArray);
 
+		// Função que remove os agrupamentos repetido
 		exportList = groupArray.filter(
 			(group, index, self) =>
 				index ===
@@ -87,27 +109,50 @@ function App() {
 				)
 		);
 
-		exportList.sort(handlerOrderDate);
+		exportList.sort(handlerOrderDateMatched);
 
 		console.log('exportList', exportList);
+
+		return exportList;
 	}
 
-	handlerArray(jobs);
-
-	// sortedJobs = jobs.slice().sort(handlerOrderDate);
+	jobsList = handlerRetornaArray(jobs);
 
 	return (
-		<div>
-			{sortedJobs.map((job) => (
-				<div key={job.id}>
-					{job.id} -{' '}
-					{format(job.deadline, "dd'/'MM'/'yyyy' 'HH:mm", {
-						locale: pt,
-					})}
-				</div>
+		<Container fluid="lg">
+			{jobsList.map((jobGroup) => (
+				<ListGroup
+					className="my-5"
+					key={`${jobGroup.deadlineMatched}-${jobGroup.dateMatched}`}>
+					<ListGroupItemHeading>
+						Tarefas do dia - {jobGroup.dateMatched}
+					</ListGroupItemHeading>
+					<ListGroupItem>
+						<Table>
+							<thead>
+								<th className="border-top-0 text-center">ID</th>
+								<th className="border-top-0">Descrição</th>
+								<th className="border-top-0">Prazo</th>
+								<th className="border-top-0 text-center">
+									Tempo
+								</th>
+							</thead>
+							{jobGroup.list.sort(handlerOrderDate).map((job) => (
+								<tbody key={job.id}>
+									<td className="text-center">{job.id}</td>
+									<td>{job.description}</td>
+									<td>{fullDateFormat(job.deadline)}</td>
+									<td className="text-center">
+										{job.duration}
+									</td>
+								</tbody>
+							))}
+						</Table>
+					</ListGroupItem>
+				</ListGroup>
 			))}
 			<div />
-		</div>
+		</Container>
 	);
 }
 
