@@ -14,7 +14,7 @@ import pt from 'date-fns/locale/pt';
 
 import { storageJobs } from './storage/jobs';
 
-import * as ActionsJobs from './store/modules/jobs/actions';
+// import * as ActionsJobs from './store/modules/jobs/actions';
 
 export default function App() {
 	// const jobs = useSelector((state) => state.jobs);
@@ -102,16 +102,10 @@ export default function App() {
 										<th className="border-top-0 text-center">
 											ID
 										</th>
-									</tr>
-									<tr>
 										<th className="border-top-0">
 											Descrição
 										</th>
-									</tr>
-									<tr>
 										<th className="border-top-0">Prazo</th>
-									</tr>
-									<tr>
 										<th className="border-top-0 text-center">
 											Tempo
 										</th>
