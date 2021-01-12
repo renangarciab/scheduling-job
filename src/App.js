@@ -12,60 +12,62 @@ import {
 } from 'reactstrap';
 import pt from 'date-fns/locale/pt';
 
+import * as ActionsJobs from './store/modules/jobs/actions';
+
 export default function App() {
-	// const jobs = useSelector((state) => state.jobs);
-	// const dispatch = useDispatch();
+	const jobs = useSelector((state) => state.jobs);
+	const dispatch = useDispatch();
 
 	const [jobsList, setJobsList] = useState([]);
 
 	// useEffect(() => {
-	// 	dispatch({ type: 'REQUEST_JOBS' });
+	// 	dispatch(ActionsJobs.requestJobs());
 	// }, [dispatch]);
 
-	const jobs = [
-		{
-			id: 1,
-			description: 'Importação de arquivos de fundos',
-			deadline: new Date('2019-11-11 12:00:00'),
-			duration: 2,
-		},
-		{
-			id: 2,
-			description: 'Importação de dados da Base Legada',
-			deadline: new Date('2019-11-13 12:00:00'),
-			duration: 4,
-		},
-		{
-			id: 3,
-			description: 'Importação de dados de integração',
-			deadline: new Date('2019-11-11 08:00:00'),
-			duration: 6,
-		},
-		{
-			id: 4,
-			description: 'Importação de dados de integração',
-			deadline: new Date('2019-11-12 18:00:00'),
-			duration: 6,
-		},
-		{
-			id: 5,
-			description: 'Importação de dados de integração',
-			deadline: new Date('2019-11-12 09:00:00'),
-			duration: 8,
-		},
-		{
-			id: 6,
-			description: 'Importação de dados de integração',
-			deadline: new Date('2019-11-12 15:00:00'),
-			duration: 1,
-		},
-		{
-			id: 7,
-			description: 'Importação de dados de integração',
-			deadline: new Date('2019-11-12 09:00:00'),
-			duration: 10,
-		},
-	];
+	// const jobs = [
+	// 	{
+	// 		id: 1,
+	// 		description: 'Importação de arquivos de fundos',
+	// 		deadline: new Date('2019-11-11 12:00:00'),
+	// 		duration: 2,
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		description: 'Importação de dados da Base Legada',
+	// 		deadline: new Date('2019-11-13 12:00:00'),
+	// 		duration: 4,
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		description: 'Importação de dados de integração',
+	// 		deadline: new Date('2019-11-11 08:00:00'),
+	// 		duration: 6,
+	// 	},
+	// 	{
+	// 		id: 4,
+	// 		description: 'Importação de dados de integração',
+	// 		deadline: new Date('2019-11-12 18:00:00'),
+	// 		duration: 6,
+	// 	},
+	// 	{
+	// 		id: 5,
+	// 		description: 'Importação de dados de integração',
+	// 		deadline: new Date('2019-11-12 09:00:00'),
+	// 		duration: 8,
+	// 	},
+	// 	{
+	// 		id: 6,
+	// 		description: 'Importação de dados de integração',
+	// 		deadline: new Date('2019-11-12 15:00:00'),
+	// 		duration: 1,
+	// 	},
+	// 	{
+	// 		id: 7,
+	// 		description: 'Importação de dados de integração',
+	// 		deadline: new Date('2019-11-12 09:00:00'),
+	// 		duration: 10,
+	// 	},
+	// ];
 
 	function dateFormat(date) {
 		return format(date, "dd'/'MM'/'yyyy'", {
@@ -129,58 +131,63 @@ export default function App() {
 	}
 
 	return (
-		<Container fluid="lg" data-testid="jobs">
+		<Container fluid="lg">
 			<Button onClick={() => returnJobsList()}>Carregar lista</Button>
-			{jobsList.map((jobGroup) => (
-				<ListGroup
-					className="my-5"
-					key={`${jobGroup.deadlineMatched}-${jobGroup.dateMatched}`}>
-					<ListGroupItemHeading>
-						Tarefas do dia - {jobGroup.dateMatched}
-					</ListGroupItemHeading>
-					<ListGroupItem>
-						<Table>
-							<thead>
-								<tr>
-									<th className="border-top-0 text-center">
-										ID
-									</th>
-								</tr>
-								<tr>
-									<th className="border-top-0">Descrição</th>
-								</tr>
-								<tr>
-									<th className="border-top-0">Prazo</th>
-								</tr>
-								<tr>
-									<th className="border-top-0 text-center">
-										Tempo
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{jobGroup.list
-									.sort(orderDate)
-									.map((job, index) => (
-										<tr key={job.id}>
-											<td className="text-center">
-												{job.id}
-											</td>
-											<td>{job.description}</td>
-											<td>
-												{fullDateFormat(job.deadline)}
-											</td>
-											<td className="text-center">
-												{job.duration}
-											</td>
-										</tr>
-									))}
-							</tbody>
-						</Table>
-					</ListGroupItem>
-				</ListGroup>
-			))}
-			<div />
+			<div data-testid="jobs">
+				{jobsList.map((jobGroup) => (
+					<ListGroup
+						className="my-5"
+						key={`${jobGroup.deadlineMatched}-${jobGroup.dateMatched}`}>
+						<ListGroupItemHeading>
+							Tarefas do dia - {jobGroup.dateMatched}
+						</ListGroupItemHeading>
+						<ListGroupItem>
+							<Table>
+								<thead>
+									<tr>
+										<th className="border-top-0 text-center">
+											ID
+										</th>
+									</tr>
+									<tr>
+										<th className="border-top-0">
+											Descrição
+										</th>
+									</tr>
+									<tr>
+										<th className="border-top-0">Prazo</th>
+									</tr>
+									<tr>
+										<th className="border-top-0 text-center">
+											Tempo
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{jobGroup.list
+										.sort(orderDate)
+										.map((job) => (
+											<tr key={job.id}>
+												<td className="text-center">
+													{job.id}
+												</td>
+												<td>{job.description}</td>
+												<td>
+													{fullDateFormat(
+														job.deadline
+													)}
+												</td>
+												<td className="text-center">
+													{job.duration}
+												</td>
+											</tr>
+										))}
+								</tbody>
+							</Table>
+						</ListGroupItem>
+					</ListGroup>
+				))}
+			</div>
 		</Container>
 	);
 }
