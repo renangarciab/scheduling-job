@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 
 import App from '../App';
-
-import * as ActionsJobs from '../store/modules/jobs/actions';
 
 jest.mock('react-redux', () => ({
 	useSelector: jest.fn(),
@@ -39,15 +37,4 @@ describe('App', () => {
 		expect(getByTestId('jobs')).toHaveTextContent('11/11/2019 12:00');
 		expect(getByTestId('jobs')).toHaveTextContent('2');
 	});
-
-	// it('shoulb be dispatch jobs', () => {
-	// 	const { getByTestId } = render(<App />);
-	// 	const dispatch = jest.fn();
-
-	// 	useDispatch.mockReturnValue(dispatch);
-
-	// 	fireEvent.load(getByTestId('jobs'));
-
-	// 	expect(dispatch).toHaveBeenCalled(ActionsJobs.requestJobs());
-	// });
 });

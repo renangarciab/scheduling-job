@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { format } from 'date-fns';
 import {
@@ -12,62 +12,14 @@ import {
 } from 'reactstrap';
 import pt from 'date-fns/locale/pt';
 
+import { storageJobs } from './storage/jobs';
+
 import * as ActionsJobs from './store/modules/jobs/actions';
 
 export default function App() {
-	const jobs = useSelector((state) => state.jobs);
-	const dispatch = useDispatch();
+	// const jobs = useSelector((state) => state.jobs);
 
 	const [jobsList, setJobsList] = useState([]);
-
-	// useEffect(() => {
-	// 	dispatch(ActionsJobs.requestJobs());
-	// }, [dispatch]);
-
-	// const jobs = [
-	// 	{
-	// 		id: 1,
-	// 		description: 'Importação de arquivos de fundos',
-	// 		deadline: new Date('2019-11-11 12:00:00'),
-	// 		duration: 2,
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		description: 'Importação de dados da Base Legada',
-	// 		deadline: new Date('2019-11-13 12:00:00'),
-	// 		duration: 4,
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		description: 'Importação de dados de integração',
-	// 		deadline: new Date('2019-11-11 08:00:00'),
-	// 		duration: 6,
-	// 	},
-	// 	{
-	// 		id: 4,
-	// 		description: 'Importação de dados de integração',
-	// 		deadline: new Date('2019-11-12 18:00:00'),
-	// 		duration: 6,
-	// 	},
-	// 	{
-	// 		id: 5,
-	// 		description: 'Importação de dados de integração',
-	// 		deadline: new Date('2019-11-12 09:00:00'),
-	// 		duration: 8,
-	// 	},
-	// 	{
-	// 		id: 6,
-	// 		description: 'Importação de dados de integração',
-	// 		deadline: new Date('2019-11-12 15:00:00'),
-	// 		duration: 1,
-	// 	},
-	// 	{
-	// 		id: 7,
-	// 		description: 'Importação de dados de integração',
-	// 		deadline: new Date('2019-11-12 09:00:00'),
-	// 		duration: 10,
-	// 	},
-	// ];
 
 	function dateFormat(date) {
 		return format(date, "dd'/'MM'/'yyyy'", {
@@ -90,7 +42,7 @@ export default function App() {
 	}
 
 	function returnJobsList() {
-		const list = jobs;
+		const list = storageJobs;
 		const compareList = list;
 		let exportList = [];
 		let dateMatched = null;
@@ -132,7 +84,9 @@ export default function App() {
 
 	return (
 		<Container fluid="lg">
-			<Button onClick={() => returnJobsList()}>Carregar lista</Button>
+			<Button className="mt-5" onClick={() => returnJobsList()}>
+				Carregar lista
+			</Button>
 			<div data-testid="jobs">
 				{jobsList.map((jobGroup) => (
 					<ListGroup
