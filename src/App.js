@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { format } from 'date-fns';
 import {
@@ -7,11 +8,20 @@ import {
 	ListGroupItem,
 	ListGroupItemHeading,
 	Table,
+	Button,
 } from 'reactstrap';
 import pt from 'date-fns/locale/pt';
 
-function App() {
-	let jobsList = [];
+export default function App() {
+	// const jobs = useSelector((state) => state.jobs);
+	// const dispatch = useDispatch();
+
+	const [jobsList, setJobsList] = useState([]);
+
+	// useEffect(() => {
+	// 	dispatch({ type: 'REQUEST_JOBS' });
+	// }, [dispatch]);
+
 	const jobs = [
 		{
 			id: 1,
@@ -77,7 +87,8 @@ function App() {
 		return dateA.deadline - dateB.deadline;
 	}
 
-	function returnJobsList(list) {
+	function returnJobsList() {
+		const list = jobs;
 		const compareList = list;
 		let exportList = [];
 		let dateMatched = null;
@@ -98,7 +109,7 @@ function App() {
 			});
 		}
 
-		console.log('groupArray', groupArray);
+		// console.log('groupArray', groupArray);
 
 		// Função que remove os agrupamentos repetidos
 		exportList = groupArray.filter(
@@ -111,15 +122,15 @@ function App() {
 
 		exportList.sort(orderDateMatched);
 
-		console.log('exportList', exportList);
+		// console.log('exportList', exportList);
+		// return exportList;
 
-		return exportList;
+		setJobsList(exportList);
 	}
 
-	jobsList = returnJobsList(jobs);
-
 	return (
-		<Container fluid="lg">
+		<Container fluid="lg" data-testid="jobs">
+			<Button onClick={() => returnJobsList()}>Carregar lista</Button>
 			{jobsList.map((jobGroup) => (
 				<ListGroup
 					className="my-5"
@@ -130,23 +141,41 @@ function App() {
 					<ListGroupItem>
 						<Table>
 							<thead>
-								<th className="border-top-0 text-center">ID</th>
-								<th className="border-top-0">Descrição</th>
-								<th className="border-top-0">Prazo</th>
-								<th className="border-top-0 text-center">
-									Tempo
-								</th>
+								<tr>
+									<th className="border-top-0 text-center">
+										ID
+									</th>
+								</tr>
+								<tr>
+									<th className="border-top-0">Descrição</th>
+								</tr>
+								<tr>
+									<th className="border-top-0">Prazo</th>
+								</tr>
+								<tr>
+									<th className="border-top-0 text-center">
+										Tempo
+									</th>
+								</tr>
 							</thead>
-							{jobGroup.list.sort(orderDate).map((job) => (
-								<tbody key={job.id}>
-									<td className="text-center">{job.id}</td>
-									<td>{job.description}</td>
-									<td>{fullDateFormat(job.deadline)}</td>
-									<td className="text-center">
-										{job.duration}
-									</td>
-								</tbody>
-							))}
+							<tbody>
+								{jobGroup.list
+									.sort(orderDate)
+									.map((job, index) => (
+										<tr key={job.id}>
+											<td className="text-center">
+												{job.id}
+											</td>
+											<td>{job.description}</td>
+											<td>
+												{fullDateFormat(job.deadline)}
+											</td>
+											<td className="text-center">
+												{job.duration}
+											</td>
+										</tr>
+									))}
+							</tbody>
 						</Table>
 					</ListGroupItem>
 				</ListGroup>
@@ -155,5 +184,3 @@ function App() {
 		</Container>
 	);
 }
-
-export default App;
