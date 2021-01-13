@@ -25,6 +25,7 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
+		"coverage": "react-scripts test --coverage --watchAll=false",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build"
@@ -33,6 +34,14 @@
 		"extends": [
 			"react-app",
 			"react-app/jest"
+		]
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"!src/index.js",
+			"!src/services/*.js",
+			"!src/mocks/*.js",
+			"!src/storage/*.js"
 		]
 	},
 	"browserslist": {
