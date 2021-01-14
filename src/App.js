@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-
-import { format } from 'date-fns';
 import {
 	Container,
 	ListGroup,
@@ -10,9 +8,11 @@ import {
 	Table,
 	Button,
 } from 'reactstrap';
-import pt from 'date-fns/locale/pt';
 
-import { storageJobs } from './storage/jobs';
+import { mockJobs } from './mocks/jobs';
+import { fullDateFormat, orderDate } from './helpers/date';
+
+import { returnJobsList } from './helpers/jobs';
 
 // import * as ActionsJobs from './store/modules/jobs/actions';
 
@@ -21,70 +21,13 @@ export default function App() {
 
 	const [jobsList, setJobsList] = useState([]);
 
-	function dateFormat(date) {
-		return format(date, "dd'/'MM'/'yyyy'", {
-			locale: pt,
-		});
-	}
-
-	function fullDateFormat(date) {
-		return format(date, "dd'/'MM'/'yyyy' 'HH:mm", {
-			locale: pt,
-		});
-	}
-
-	function orderDateMatched(dateA, dateB) {
-		return dateA.deadlineMatched - dateB.deadlineMatched;
-	}
-
-	function orderDate(dateA, dateB) {
-		return dateA.deadline - dateB.deadline;
-	}
-
-	function returnJobsList() {
-		const list = storageJobs;
-		const compareList = list;
-		let exportList = [];
-		let dateMatched = null;
-		const groupArray = [];
-
-		// Função que agrupa os jobs por dia
-		for (let i = 0; i < list.length; i += 1) {
-			dateMatched = compareList.filter(
-				(item) =>
-					dateFormat(item.deadline) ===
-						dateFormat(list[i].deadline) && item.duration < 9
-			);
-
-			groupArray.push({
-				dateMatched: dateFormat(list[i].deadline),
-				deadlineMatched: list[i].deadline,
-				list: dateMatched,
-			});
-		}
-
-		// console.log('groupArray', groupArray);
-
-		// Função que remove os agrupamentos repetidos
-		exportList = groupArray.filter(
-			(group, index, self) =>
-				index ===
-				self.findIndex(
-					(found) => found.dateMatched === group.dateMatched
-				)
-		);
-
-		exportList.sort(orderDateMatched);
-
-		// console.log('exportList', exportList);
-		// return exportList;
-
-		setJobsList(exportList);
+	function handlerLoadJobs() {
+		setJobsList(returnJobsList(mockJobs.listToOrder));
 	}
 
 	return (
 		<Container fluid="lg">
-			<Button className="mt-5" onClick={() => returnJobsList()}>
+			<Button className="mt-5" onClick={() => handlerLoadJobs()}>
 				Carregar lista
 			</Button>
 			<div data-testid="jobs">

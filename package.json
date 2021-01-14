@@ -41,7 +41,9 @@
 			"!src/index.js",
 			"!src/services/*.js",
 			"!src/mocks/*.js",
-			"!src/storage/*.js"
+			"!src/storage/*.js",
+			"!src/store/index.js",
+			"!src/store/modules/*.js"
 		]
 	},
 	"browserslist": {
