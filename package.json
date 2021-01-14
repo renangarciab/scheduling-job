@@ -39,6 +39,7 @@
 	"jest": {
 		"collectCoverageFrom": [
 			"!src/index.js",
+			"!src/App.js",
 			"!src/services/*.js",
 			"!src/mocks/*.js",
 			"!src/storage/*.js",

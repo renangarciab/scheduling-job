@@ -2,15 +2,16 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 
-import App from '../App';
+import Jobs from '../../components/Jobs';
 
 jest.mock('react-redux', () => ({
 	useSelector: jest.fn(),
+	useDispatch: jest.fn(),
 }));
 
-describe('App', () => {
+describe('Jobs', () => {
 	it('shoud be component list', () => {
-		const { findByTestId } = render(<App />);
+		const { findByTestId } = render(<Jobs />);
 		expect(findByTestId('jobs')).toBeTruthy();
 	});
 
@@ -27,7 +28,7 @@ describe('App', () => {
 				],
 			})
 		);
-		const { getByTestId, getByText } = render(<App />);
+		const { getByTestId, getByText } = render(<Jobs />);
 
 		fireEvent.click(getByText('Carregar lista'));
 		expect(getByTestId('jobs')).toHaveTextContent(

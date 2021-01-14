@@ -28,7 +28,5 @@ export function returnJobsList(list) {
 			self.findIndex((found) => found.dateMatched === group.dateMatched)
 	);
 
-	const listOrdered = exportList.sort(orderDateMatched);
-
-	return listOrdered;
+	return exportList.sort(orderDateMatched);
 }
